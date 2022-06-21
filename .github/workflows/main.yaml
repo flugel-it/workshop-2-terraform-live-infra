@@ -25,6 +25,12 @@ jobs:
         with:
           terragrunt_version: 0.26.7
           
+      - name: Change BsUnit for Random String
+        run: |
+          sudo apt-get install -y gpw
+          RSTRING=$(gpw 1 10)
+          sed -i "s|bsunit|${RSTRING}|g" dev/env.hcl
+
       - name: Terragrunt Validate
         uses: the-commons-project/terragrunt-github-actions@master
         with:
