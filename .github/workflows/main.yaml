@@ -3,7 +3,7 @@ on:
   push: {}
 jobs:
   build:
-    name: EC2 instance
+    name: Live Infra
     runs-on: ubuntu-latest
     env: 
       TFMODULE: ${{ github.workspace }}
