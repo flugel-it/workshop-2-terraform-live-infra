@@ -30,4 +30,4 @@ inputs = merge(
     "owner"         = "Flugel",
     "business_unit" = "${local.business_unit}",
   },
-  
+)
