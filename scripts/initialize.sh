@@ -2,7 +2,7 @@
 
 if [[ $# -eq 0 ]] ; then
   echo "Remember to run the command with the environment to be modified."
-  echo "Usage: remove-terragrunt-cache.sh <environment>"
+  echo "Usage: initialize.sh <environment>"
   exit 1
 fi
 
