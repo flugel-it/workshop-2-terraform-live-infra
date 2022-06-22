@@ -6,7 +6,7 @@ locals {
 }
 
 terraform {
-  source = "git@github.com:flugel-it/workshop-ec2.git?ref=main"
+  source = "git@github.com:flugel-it/workshop-ec2.git?ref=v1.0"
 }
 
 include {
