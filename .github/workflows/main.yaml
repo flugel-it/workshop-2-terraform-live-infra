@@ -1,14 +1,20 @@
 name: Live-Infra CI
 on:
-  push: {}
+  push:
+    branches:
+    - main
+  pull_request:
 jobs:
   build:
     name: Live Infra
     runs-on: ubuntu-latest
     env: 
       TFMODULE: ${{ github.workspace }}
-      tf_version: 'latest'
-      tg_version: 'latest'
+      tf_version: 1.1.5
+      tg_version: 0.31.0
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-1   
     steps:
       - name: Checkout Git Code
         uses: actions/checkout@v2
@@ -16,44 +22,33 @@ jobs:
       - name: Setup Terraform
         uses: autero1/action-terraform@v0.1.0
         with:
-          terraform_version: 1.1.5
+          terraform_version: ${{ env.tf_version }}
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
 
       - name: Setup Terragrunt
         uses: autero1/action-terragrunt@v1.0.0
         with:
-          terragrunt_version: 0.26.7
+          terragrunt_version: ${{ env.tg_version }}
 
-      - name: Terragrunt Validate
-        uses: the-commons-project/terragrunt-github-actions@master
-        with:
-          tf_actions_version: ${{ env.tf_version }}
-          tg_actions_version: ${{ env.tg_version }}
-          tf_actions_binary: 'terraform'
-          tf_actions_subcommand: 'validate'
-          tf_actions_working_dir: ${{ env.TFMODULE }}
-          tf_actions_comment: true
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-east-1
-          
-      - name: Terragrunt Plan
-        uses: the-commons-project/terragrunt-github-actions@master
-        with:
-          tf_actions_version: ${{ env.tf_version }}
-          tg_actions_version: ${{ env.tg_version }}
-          tf_actions_subcommand: 'plan'
-          tf_actions_working_dir: ${{ env.TFMODULE }}
-          tf_actions_comment: true
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-east-1
-        run: |
-          echo 'y'
+      - name: Terragrunt init
+        run: terragrunt init
+        working-directory: ${{env.TFMODULE }}
 
+      - name: Add ssh key
+        uses: webfactory/ssh-agent@v0.5.2
+        with:
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Terragrunt validate-all
+        run: terragrunt run-all validate
+        working-directory: ${{ env.TFMODULE }}
+
+      - name: Terragrunt plan-all
+        run: terragrunt run-all plan
+        working-directory: ${{ env.TFMODULE }}
+
+<<<<<<< HEAD
       - name: Terragrunt apply-all
         run: terragrunt apply-all --terragrunt-non-interactive
         env:
@@ -61,3 +56,9 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
           
+=======
+      - name: Terragrunt apply-all (Runs on merge)
+        if: github.ref == 'refs/heads/main'
+        run: terragrunt run-all apply --terragrunt-non-interactive --terragrunt-include-external-dependencies
+        working-directory: ${{ env.TFMODULE }}
+>>>>>>> 8bca1300dd93ef7864796debedd87c5dbf3943d1
