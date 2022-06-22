@@ -40,20 +40,20 @@ jobs:
         with:
             ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Terragrunt validate-all
+      - name: Terragrunt run-all validate
         run: terragrunt run-all validate
         working-directory: ${{ env.TFMODULE }}
 
-      - name: Terragrunt plan-all
+      - name: Terragrunt run-all plan
         run: terragrunt run-all plan
         working-directory: ${{ env.TFMODULE }}
 
-      - name: Terragrunt apply-all (Runs on merge)
+      - name: Terragrunt run-all apply (Runs on merge)
         if: github.ref == 'refs/heads/main'
         run: terragrunt run-all apply --terragrunt-non-interactive --terragrunt-include-external-dependencies
         working-directory: ${{ env.TFMODULE }}
 
-      - name: Terragrunt destroy-all (Runs on merge)
+      - name: Terragrunt run-all destroy (Runs on merge)
         if: github.ref == 'refs/heads/main'
         run: terragrunt run-all destroy --terragrunt-non-interactive --terragrunt-include-external-dependencies
         working-directory: ${{ env.TFMODULE }}

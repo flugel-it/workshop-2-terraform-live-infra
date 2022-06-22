@@ -1,7 +1,7 @@
 # Live Infrastructure Example
 
 ## Description
-This module is used to deploy an AWS EC2 instance as well as an Amazon Virtual Private Cloud (VPC).
+This code is used to deploy an AWS EC2 instance as well as an Amazon Virtual Private Cloud (VPC).
 
 ## Requirements
 These are the requirements for this module.
@@ -12,7 +12,7 @@ These are the requirements for this module.
 
 |    |   Terragrunt    |
 |:--:|-----------|
-| >= |  0.26.7   |
+| >= |  0.31.0   |
 
 ## Setup
 
