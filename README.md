@@ -1,4 +1,4 @@
-# AWS S3 bucket module
+# Live Infrastructure Example
 
 ## Description
 This module is used to deploy an AWS EC2 instance as well as an Amazon Virtual Private Cloud (VPC).
