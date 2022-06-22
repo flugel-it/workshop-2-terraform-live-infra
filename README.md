@@ -52,7 +52,7 @@ Terragrunt takes care of creating the appropiate resources for tracking
 
   ```bash
   cd <environment>/  # ex: dev/
-  terragrunt plan-all
+  terragrunt run-all plan
   ```
 
   * For only one resource
@@ -68,7 +68,7 @@ Terragrunt takes care of creating the appropiate resources for tracking
 
   ```bash
   cd <environment>/  # ex: dev/
-  terragrunt apply-all
+  terragrunt run-all apply
   ```
 
   * For only one resource
