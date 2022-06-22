@@ -6,7 +6,7 @@ locals {
 }
 
 terraform {
-  source = "git@github.com:flugel-it/workshop-vpc.git"
+  source = "git@github.com:flugel-it/workshop-vpc.git?ref=main"
 }
 
 include {
@@ -20,6 +20,4 @@ inputs = {
   vpc_tags = {
     "environment" = "${local.environment}"
   }
-
 }
-
