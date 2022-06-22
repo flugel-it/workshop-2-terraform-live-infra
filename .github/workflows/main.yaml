@@ -1,6 +1,9 @@
 name: Live-Infra CI
 on:
-  push: {}
+  push:
+    branches:
+    - main
+  pull_request:
 jobs:
   build:
     name: Live Infra
@@ -14,7 +17,7 @@ jobs:
       AWS_DEFAULT_REGION: us-east-1   
     steps:
     - name: Checkout Git Code
-    - uses: actions/checkout@master2
+      uses: actions/checkout@master2
 
     - name: Setup Terraform
       uses: autero1/action-terraform@v0.1.0
