@@ -52,3 +52,9 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: terragrunt run-all apply --terragrunt-non-interactive --terragrunt-include-external-dependencies
         working-directory: ${{ env.TFMODULE }}
+
+      - name: Terragrunt destroy-all (Runs on merge)
+        if: github.ref == 'refs/heads/main'
+        run: terragrunt run-all destroy --terragrunt-non-interactive --terragrunt-include-external-dependencies
+        working-directory: ${{ env.TFMODULE }}
+        
