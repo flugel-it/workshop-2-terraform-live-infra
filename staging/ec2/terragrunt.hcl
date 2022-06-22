@@ -19,6 +19,5 @@ inputs = {
   instance_type = "t2.micro"
   tags = {
     "environment" = "${local.environment}"
+  }
 }
-
-

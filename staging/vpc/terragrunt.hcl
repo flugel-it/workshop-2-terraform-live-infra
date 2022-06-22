@@ -20,6 +20,5 @@ inputs = {
   vpc_tags = {
     "environment" = "${local.environment}"
   }
-
 }
 
